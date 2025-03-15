@@ -32,10 +32,12 @@ class Character:
             print('лимит лечения превышен')
 
     def __str__(self) -> str:
+
         logging.info(f'{self.name}: {self.max_health} - здоровье')
 
     def health(self) -> str:
-        logging.info(f'{self.name}: {self.mana} - здоровье')
+        if self.mana >= self.limit_mana:
+            logging.info(f'{self.name}: {self.mana} - здоровье')
 
     def __len__(self) -> int:
         return self.max_health
@@ -63,10 +65,19 @@ class Warrior(Character):
 
      #наносит удар противнику
      def power_attack(self, target: Character) -> None:
-         self.power = randint(10, 15)
-         logging.info(f'{self.name} атакует {target.name} на {self.power*2} урона.')
-         self.max_health -= 10
-         target.mana -= self.power*2
+
+
+            self.power = randint(10, 15)
+            logging.info(f'{self.name} атакует {target.name} на {self.power*2} урона.')
+            self.max_health -= 10
+            try:
+                if target.mana >= target.limit_mana:
+                    target.mana -= (self.power*2)
+                else:
+                    raise ValueError
+            except ValueError:
+                 logging.error(f'Персонаж {self.name} победил ')
+
 
 
 class Mage(Character):
@@ -86,7 +97,7 @@ class Mage(Character):
                 else:
                     raise ValueError
             except ValueError:
-                logging.error('кол-во маны недостаточно для удара')
+                logging.error(f'кол-во маны недостаточно для удара, персонаж {self.name} погиб')
 
     def restore_mana(self, amount: int) -> None:
         amount = randint(5, 10)
