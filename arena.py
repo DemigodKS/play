@@ -38,8 +38,8 @@ class Arena:
 
 
 
-    #def show_players(self) -> list[str]:
-      #  return logging.info(f'Игроки: {self.players}')
+    def show_players(self) -> list[str]:
+       logging.info(f'Игроки: {self.players}')
 
     #def __len__(self) -> int:
      #   pass
