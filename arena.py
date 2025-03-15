@@ -1,7 +1,4 @@
 from __future__ import annotations
-
-from numpy.random import randint
-
 from characters import Character, Warrior, Mage
 import logging
 
@@ -21,15 +18,17 @@ class Arena:
 
         try:
             while player1_ or player2_:
-                if player1_.max_health >= 0 or player2_.mana > player2.limit_mana:
+                if player1_.max_health >= 0 and player2_.mana > player2.limit_mana:
 
                     player1_.power_attack(player2_)
                     player2_.fireball(player1_)
                     player1_.__str__()
                     player2_.health()
+                else:
+                    raise ValueError
 
         except ValueError:
-            if player1_.max_health <= 10:
+            if player1_.max_health <= 0:
                 logging.error(f'{player1_.name} погиб')
             elif player2_.mana < player2_.limit_mana:
                 logging.error(f'{player2_.name} погиб')
@@ -39,7 +38,7 @@ class Arena:
 
 
     def show_players(self) -> list[str]:
-       logging.info(f'Игроки: {self.players}')
+      logging.info(f'Игроки: {self.players}')
 
     #def __len__(self) -> int:
      #   pass
